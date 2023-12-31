@@ -1,0 +1,22 @@
+from ultralytics import YOLO
+import supervision as sv
+
+# Initialize the YOLOv8 model with the specified weights file
+model = YOLO('yolov8x.pt')
+
+# Train the model using a specified dataset (data.yaml file) for 300 epochs
+model.train(data='Path to data.yaml file of your dataset', epochs=300)
+
+# Initialize the YOLOv8 model with pre-trained weights
+model = YOLO('Path to trained model (best.pt file)')
+
+# Perform object detection on a specified video file
+result = model.predict('/content/drive/MyDrive/Mecha/traffic1 (720p).mp4', save=True, conf=0.3, iou=0.45)
+
+# Count the total number of objects (cars) detected in the video
+total_objects_detected = 0 
+for prediction in result:
+    total_objects_detected += len(prediction)
+
+# Display the total number of cars detected
+print(f"Total number of Cars: {total_objects_detected}")
